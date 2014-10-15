@@ -41,6 +41,33 @@ Blockly.Blocks['draw_move'] = {
   }
 };
 
+Blockly.Blocks['draw_moveto'] = {
+  init: function() {
+    this.setHelpUrl('');
+    this.setColour(160);
+    this.appendDummyInput()
+        .appendField(BlocklyApps.getMsg('Turtle_moveTo'));
+    this.appendValueInput("XPOS")
+        .setCheck("Number")
+        .appendField("x");
+    this.appendValueInput("YPOS")
+        .setCheck("Number")
+        .appendField("y");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip(BlocklyApps.getMsg('Turtle_moveToTooltip'));
+  }
+};
+
+Blockly.JavaScript['draw_moveto'] = function(block) {
+  var xpos = Blockly.JavaScript.valueToCode(block, 'XPOS', Blockly.JavaScript.ORDER_ATOMIC);
+  var ypos = Blockly.JavaScript.valueToCode(block, 'YPOS', Blockly.JavaScript.ORDER_ATOMIC);
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'Turtle.moveTo(' + xpos + ',' + ypos + ', \'block_id_' + block.id + '\');\n';
+  return code;
+};
+
 Blockly.JavaScript['draw_move'] = function(block) {
   // Generate JavaScript for moving forward or backwards.
   var value = Blockly.JavaScript.valueToCode(block, 'VALUE',

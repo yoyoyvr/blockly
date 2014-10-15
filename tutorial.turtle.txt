@@ -1,0 +1,93 @@
+#tutorial.turtle
+
+Notes on how to create your first block, based on this tutorial:
+https://code.google.com/p/blockly/wiki/Tutorial_CreateYourFirstBlock
+
+_As of October 14, 2014_
+
+##Environment
+
+- Windows 7 64-bit
+- Windows cmd shell
+- git 1.9.0 (available from http://git-scm.com/downloads)
+- Java 1.7.0 (should be installed as C:\Program Files (x86)\Java\jre7\bin)
+- Notepad++ text editor (available from http://notepad-plus-plus.org)
+
+
+##Install the Blockly source code
+
+git clone https://github.com/google/blockly.git
+
+You may wish to create your own fork on GitHub first.
+
+Create a branch in which to do this tutorial:  
+git checkout -b tutorial.turtle
+
+Since we're using a git branch, we won't bother making a backup of the
+blockly\apps\turtle folder, which is where all the files for the tutorial
+can be found.
+
+
+## Step 1 - Designing the block
+
+Follow the instructions in the tutorial. Note that your block may look
+slightly different, in particular the "titles" of each input is now
+called "fields".
+
+Also, block should be named "draw_moveto" rather than "move_to" for
+consistency with naming of the other blocks in the blocks.js file.
+
+
+## Step 2 - Editing the blocks.js file
+
+Be careful when copying code out of the Block Factory demo, it's easy to
+over-select the text boxes.
+
+Note change from hard-coded text to (potentially) localizable "BlocklyApps.getMsg" messages.
+
+You don't have to throw away all the generated code, rather just fill in the
+blanks, like so:
+
+    Blockly.JavaScript['draw_moveto'] = function(block) {
+      var xpos = Blockly.JavaScript.valueToCode(block, 'XPOS', Blockly.JavaScript.ORDER_ATOMIC);
+      var ypos = Blockly.JavaScript.valueToCode(block, 'YPOS', Blockly.JavaScript.ORDER_ATOMIC);
+      // TODO: Assemble JavaScript into code variable.
+      var code = 'Turtle.moveTo(' + xpos + ',' + ypos + ', \'block_id_' + block.id + '\');\\n';
+      return code;
+    };
+
+
+## Step 3 - Editing the turtle.js file
+
+This bits a little cryptic, but it makes sense within the implementation of
+the turtle app, so bear with it.
+
+
+## Step 4 - Editing the template.soy file
+
+This adds the new block to the toolbox for the turtle app, and provides a tooltip.
+
+
+## Step 5 - Compling the code changes
+
+First make sure java is in your path. Open a cmd shell and type "java -version".
+If this complains that "'java' is not recognized as an internal or external command,
+operable program or batch file," then check that java.exe is present in:  
+  C:\Program Files (x86)\Java\jre7\bin
+and that this location is in your PATH.
+
+Now run your cmd shell again and "cd (path)\blockly\apps\turtle", where (path) is the
+location into which you cloned the blockly git repository.
+
+Now you can run the java command line from the top of the template.soy file. This
+should take just a few seconds and not produce any output. You can then run
+"dir generated\en.js" to confirm that a new output file was generated.
+
+
+## Step 6 - Testing the new block
+
+On my first try I was able to use the block in the visual script, but running the
+script and generating code silently failed. Turned out it was an error in the 
+Blockly.JavaScript['draw_moveto'] section. After fixing that it all worked great.
+
+Once it's working, you can run "git gui" to review and commit your changes.
